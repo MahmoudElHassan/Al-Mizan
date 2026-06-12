@@ -1,0 +1,873 @@
+/* ============================== */
+/* 🎨 1. GLOBAL VARIABLES & RESETS */
+/* ============================== */
+
+:root {
+    /* Omani Inspired Palette (Remains professional and authoritative) */
+    --color-primary: #005D73; /* Deep Teal - CTA, Accent */
+    --color-secondary: #C67E4F; /* Terracotta/Burnt Orange - Secondary Highlight */
+    --color-text-dark: #2C3E50; /* Charcoal Gray - Main Text */
+    --color-text-light: #FAFAEC; /* Off-White / Beige - Background */
+
+    /* Typography - Both fonts are loaded from Google Fonts (Inter + Cairo).
+       Cairo provides excellent rendering for both Arabic and Latin scripts. */
+    --font-heading: 'Cairo', sans-serif; /* Best for AR + EN headlines */
+    --font-body: 'Inter', sans-serif; /* General body text */
+
+    /* Spacing & Layout */
+    --padding-section: 80px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--color-text-dark);
+    background-color: var(--color-text-light);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px; /* Standard horizontal padding */
+}
+
+/* General Text Styling */
+h1, h2 {
+    font-family: var(--font-heading);
+    color: var(--color-text-dark);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem;}
+h3 { font-family: var(--font-heading); font-size: 1.75rem; color: var(--color-primary);}
+
+/* Spacing Utility Classes */
+.section-padding { padding: 80px 0; }
+.bg-light { background-color: #f4f6f8; } 
+.mb-60 { margin-bottom: 60px; }
+.text-center { text-align: center; }
+
+
+/* ============================== */
+/* 🚀 2. BUTTONS & CTAs (Consistency is Key) */
+/* ============================== */
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+/* Primary CTA (Teal) */
+.cta-button.large-btn, .final-submit-btn {
+    background-color: var(--color-primary);
+    color: white !important; /* Overwrite link color */
+    padding: 15px 40px;
+    font-size: 1rem;
+}
+
+/* Secondary CTA (Terracotta) */
+.cta-button:not(.large-btn), .nav-cta {
+    background-color: var(--color-secondary);
+    color: rgb(12, 74, 77) !important;
+    padding: 8px 20px;
+}
+
+.cta-button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Global link color + hover */
+a { color: var(--color-primary); transition: color 0.2s ease; }
+a:hover { color: var(--color-secondary); }
+
+/* Visible focus ring for keyboard navigation (accessibility) */
+a:focus-visible,
+button:focus-visible,
+.cta-button:focus-visible,
+#lang-switcher:focus-visible {
+    outline: 3px solid var(--color-secondary);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Distinct green WhatsApp button (used in final CTA + can be reused) */
+.cta-button.whatsapp-btn,
+.whatsapp-btn {
+    background-color: #25D366;
+    color: #fff !important;
+}
+.cta-button.whatsapp-btn:hover,
+.whatsapp-btn:hover {
+    background-color: #1ebe5b;
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
+}
+
+/* ============================== */
+/* 🏷️ 2B. UTILITY CLASSES */
+/* ============================== */
+
+.subtitle {
+    font-size: 1.15rem;
+    color: var(--color-text-dark);
+    opacity: 0.75;
+    max-width: 760px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+}
+
+.bg-primary-teal {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+/* Centered, wrapping CTA group with logical gaps (RTL-safe) */
+.cta-group,
+.hero-cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.hero-cta-group {
+    margin-top: 32px;
+}
+
+/* ============================== */
+/* 🪧 2C. LOGO & LANGUAGE SWITCHER */
+/* ============================== */
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    letter-spacing: 0.3px;
+    padding-inline: 4px;
+}
+
+.logo::before {
+    content: "";
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+.logo:hover { opacity: 0.85; }
+
+.lang-switcher { display: inline-flex; }
+
+#lang-switcher {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    padding: 8px 18px;
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#lang-switcher:hover {
+    background-color: var(--color-primary);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 93, 115, 0.2);
+}
+
+/* ============================== */
+/* 📊 2D. STATS SECTION */
+/* ============================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 32px;
+    margin-top: 20px;
+}
+
+.stat-item {
+    padding: 24px 16px;
+    text-align: center;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+.stat-number {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1.1;
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: var(--color-text-dark);
+    opacity: 0.75;
+    font-weight: 500;
+}
+
+/* ============================== */
+/* 🖼️ 2E. PORTFOLIO CTA SPACING */
+/* ============================== */
+
+.portfolio-view-btn {
+    margin-top: 40px;
+}
+
+
+/* ============================== */
+/* 🏛️ 3. HEADER & NAVIGATION (Sticky) */
+/* ============================== */
+
+#navbar {
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 15px 0;
+    transition: box-shadow 0.3s ease, padding 0.3s ease;
+}
+
+.nav-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+/* Logo sits at the visual start (LTR: left, RTL: right) automatically via flex order.
+   The first child is always the "start" side in a flex row. */
+.logo { order: 1; }
+.nav-toggle { order: 2; }
+.nav-links {
+    order: 3;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+}
+.lang-switcher { order: 4; }
+
+
+.nav-links a {
+    margin-inline-end: 30px; /* RTL-safe: becomes margin-left in LTR, margin-right in RTL */
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.nav-links a:last-child { margin-inline-end: 0; }
+.nav-links a:hover {
+    color: var(--color-primary);
+}
+
+/* ============================== */
+/* ✨ 4. HERO SECTION (Full Screen Impact) */
+/* ============================== */
+
+#hero {
+    background: linear-gradient(135deg, #005D73 0%, #1e2d3c 100%); /* Brand teal -> charcoal gradient */
+    height: 80vh; /* Takes up 80% of viewport height */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    position: relative; /* Anchor the ::before overlay inside hero */
+    overflow: hidden;
+}
+
+/* The dark overlay for readability, applied as a separate layer inside #hero */
+#hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at top left, rgba(0, 93, 115, 0.4) 0%, transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(198, 126, 79, 0.15) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.45) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative; /* Ensures content sits above the overlay */
+    z-index: 10;
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.sub-headline {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.92); /* Readable light color on the dark hero */
+}
+
+#hero h1 {
+    color: white;
+}
+
+/* ============================== */
+/* ✅ 5. TRUST BAR (Social Proof) */
+/* ============================== */
+
+#trust-bar {
+    background-color: white;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+#trust-bar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* For responsiveness */
+}
+.logo-group span {
+    font-size: 1rem;
+    color: #aaa;
+    margin: 0 20px;
+}
+
+/* ============================== */
+/* ℹ️ 5B. ABOUT SECTION (Mission + Values) */
+/* ============================== */
+
+#about {
+    background-color: #fff;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.about-text h2 { margin-bottom: 18px; }
+.about-subtitle {
+    text-align: start;
+    margin: 0 0 20px 0;
+    font-size: 1.2rem;
+    opacity: 0.85;
+}
+.about-text p {
+    margin-bottom: 16px;
+    line-height: 1.8;
+    color: var(--color-text-dark);
+}
+
+.about-values {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+.value-card {
+    padding: 28px 22px;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fbfc 100%);
+    border: 1px solid #eef1f4;
+    border-radius: 12px;
+    text-align: start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 93, 115, 0.25);
+}
+
+.value-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #0a7d96 100%);
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 14px rgba(0, 93, 115, 0.25);
+}
+
+.value-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: var(--color-text-dark);
+}
+
+.value-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-dark);
+    opacity: 0.8;
+    margin: 0;
+}
+
+/* ============================== */
+/* 🛠️ 6. SERVICES GRID (The Pillars) */
+/* ============================== */
+
+#services .service-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+.service-card {
+    padding: 30px;
+    text-align: center;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect using the Secondary Color */
+.service-card:hover {
+    border-bottom-color: var(--color-secondary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    font-size: 2.2rem;
+    line-height: 1;
+    background-color: var(--color-primary);
+    color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 6px 18px rgba(0, 93, 115, 0.25);
+}
+
+/* ============================== */
+/* 🔄 7. PROBLEM/SOLUTION (Alternating Layout) */
+/* ============================== */
+
+#problem-solution {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Used for alignment of sections */
+}
+
+#problem-solution .flex-row {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    width: 100%;
+}
+
+.content-block, .image-block {
+    flex: 1; /* Takes up equal space */
+    padding: 20px;
+}
+
+/* Styling for the solution text block */
+#problem-solution ul {
+    list-style: none;
+    margin: 25px 0;
+}
+#problem-solution li {
+    margin-bottom: 10px;
+    color: var(--color-primary); /* Highlight list items with the main color */
+    font-weight: 600;
+}
+
+.image-block img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Demo image placeholder — styled to look intentional without real assets */
+.image-placeholder {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background:
+        linear-gradient(135deg, rgba(0, 93, 115, 0.92) 0%, rgba(30, 45, 60, 0.92) 100%),
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.04) 0 12px, transparent 12px 24px);
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.4px;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.image-placeholder::after {
+    content: attr(data-label);
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(2px);
+}
+
+.image-block:hover .image-placeholder,
+.project-card:hover .image-placeholder {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+}
+
+.project-image {
+    height: 220px;
+    aspect-ratio: auto;
+}
+
+/* ============================== */
+/* 🖼️ 8. PORTFOLIO GRID (Showcase) */
+/* ============================== */
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.project-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+}
+
+.project-card img {
+    width: 100%;
+    height: 250px; /* Fixed height for uniform look */
+    object-fit: cover; /* Ensures the image covers the box nicely */
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.project-card:hover img {
+    transform: scale(1.05);
+}
+
+figcaption {
+    padding: 15px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.category {
+    display: block;
+    background-color: var(--color-secondary);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* ============================== */
+/* 📞 9. FINAL CTA (The Closer) */
+/* ============================== */
+
+.final-cta {
+    background-color: var(--color-primary); /* Deep Teal background */
+    color: white;
+    padding: 80px 0;
+}
+
+.contact-content h2, .contact-content p {
+    color: white;
+}
+
+/* ============================== */
+/* 🦶 10. FOOTER */
+/* ============================== */
+
+footer {
+    background-color: #1e2d3c; /* Darker shade than primary for depth */
+    color: #ccc;
+    padding-top: 50px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    border-bottom: 1px solid #3a4b60;
+    padding-bottom: 40px;
+}
+
+.footer-col h4 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+.footer-col p, .footer-col ul li {
+    margin-bottom: 10px;
+}
+.footer-col a {
+    color: #cfd6dd;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.footer-col a:hover {
+    color: #fff;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff !important;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+.social-icon:hover {
+    background: var(--color-secondary);
+    color: #fff !important;
+    transform: translateY(-2px);
+}
+
+/* Copyright */
+.copyright {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9rem;
+    background-color: #14212b;
+    color: #888;
+}
+
+
+/* ============================== */
+/* ✨ ANIMATIONS & SCROLL-REVEAL */
+/* ============================== */
+
+/* Default hidden state for elements that will reveal on scroll.
+   Uses translateY (direction-agnostic) and opacity only. */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger siblings a little for a nicer cascade */
+.service-card.reveal.in-view,
+.stat-item.reveal.in-view,
+.value-card.reveal.in-view,
+.project-card.reveal.in-view {
+    transition-delay: 0.05s;
+}
+
+/* Sticky header scroll state — subtle elevation when page is scrolled */
+#navbar.scrolled {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    transition: box-shadow 0.3s ease, padding 0.3s ease;
+}
+
+/* Hamburger toggle button (hidden on desktop, shown on mobile) */
+.nav-toggle {
+    display: none;
+    background: transparent;
+    border: 0;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    line-height: 1;
+}
+.nav-toggle:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    .cta-button,
+    .service-card,
+    .stat-item,
+    .value-card,
+    .project-card,
+    .image-placeholder {
+        transition: none !important;
+    }
+}
+
+/* ============================== */
+/* ✨ 🌐 RESPONSIVENESS (Mobile First) */
+/* ============================== */
+
+@media (max-width: 1024px) {
+    .nav-links a {
+        margin-inline-end: 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Adjusting the Hero to be less aggressive on mobile */
+    #hero { height: 70vh; }
+
+    /* Show the hamburger and stack the nav as a collapsible drawer */
+    .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+
+    .nav-content {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .logo { order: 1; }
+    .nav-toggle { order: 2; margin-inline-start: auto; }
+    .lang-switcher { order: 3; }
+    .nav-links {
+        order: 5;
+        flex-basis: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
+    .nav-links.open { max-height: 480px; }
+    .nav-links a {
+        margin: 0;
+        padding: 12px 4px;
+        border-bottom: 1px solid #eef1f4;
+        text-align: start;
+    }
+    .nav-links a:last-child { border-bottom: 0; }
+
+    /* Stacking the Problem/Solution section */
+    #problem-solution .flex-row {
+        flex-direction: column;
+        text-align: center;
+    }
+    .image-block {
+        margin-top: 30px;
+        width: 90%;
+    }
+
+    /* About grid: single column on mobile */
+    .about-grid { grid-template-columns: 1fr; gap: 36px; }
+    .about-text, .value-card { text-align: start; }
+
+    /* Stats: 2 columns on small screens */
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .stat-item { padding: 20px 12px; }
+
+    /* Service cards: keep 2 columns on tablet, tighten the gap */
+    #services .service-grid { gap: 24px; }
+
+    /* Stacking the footer columns */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .social-links {
+        padding-top: 20px;
+        border-top: 1px solid #3a4b60;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: clamp(2rem, 8vw, 2.6rem); }
+    .container { padding: 0 20px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .project-grid { grid-template-columns: 1fr; }
+
+    /* Service cards: single column on phones so they don't get cramped */
+    #services .service-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ============================== */
+/* 📐 GLOBAL STYLES (Keep everything from previous version) */
+/* ... (Paste all the general styles, button definitions, etc., here) ... */
+
+
+/* ==================================== */
+/* 🌐 RTL/Arabic — minimal & logical */
+/* Most layout is direction-agnostic because we use flex order, logical
+   properties (margin-inline-*, padding-inline-*), and dir="rtl" on <body>.
+   Anything that still needs a per-direction override lives here. */
+/* ==================================== */
+
+body[dir="rtl"] {
+    direction: rtl; /* The ultimate rule setter */
+    /* Use concrete font stacks (Cairo is already loaded from Google Fonts).
+       Avoid self-referencing variables to break the cyclic fallback. */
+    --font-heading: 'Cairo', sans-serif;
+    --font-body: 'Cairo', sans-serif;
+    font-family: var(--font-body);
+}
+
+/* Footer column spacing is now logical (padding-inline-start) — no
+   LTR/RTL overrides needed. */
+.footer-col { padding-inline-start: 0; }
+
