@@ -392,9 +392,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // ------------------------------------------------------------
     /** Render the stat-number text content for a given language.
      *  Uses the language-specific contentMap text (the same source the rest
-     *  of the page uses) so the numbers always reflect the active language. */
+     *  of the page uses) so the numbers always reflect the active language.
+     *  If a stat is currently animating, cancel the animation and snap to the
+     *  localized text — otherwise the in-flight tick would overwrite the
+     *  new language's text with the captured data-* prefix/suffix. */
     function renderStatNumbers(lang) {
         document.querySelectorAll('.stat-number').forEach(function (el) {
+            // Cancel any in-flight count-up so it can't overwrite our write.
+            if (el._almCancel) el._almCancel();
+
             const key = el.getAttribute('data-key');
             const entry = key && contentMap[key];
             if (entry && entry[lang]) {
@@ -423,17 +429,28 @@ document.addEventListener('DOMContentLoaded', function () {
         const suffix = el.getAttribute('data-suffix') || '';
         const duration = 1600;
         const start = performance.now();
+        let cancelled = false;
+        let rafId = 0;
+
+        // Expose a cancel handle so renderStatNumbers can stop the animation
+        // cleanly when the language is switched mid-flight.
+        el._almCancel = function () {
+            cancelled = true;
+            if (rafId) cancelAnimationFrame(rafId);
+            el._almCancel = null;
+        };
 
         // AR-style large numbers (e.g. +5,000) need Arabic-friendly thousands;
         // we keep simple en-US formatting during animation and finalize using
         // the language-specific data-key text for AR.
         function step(now) {
+            if (cancelled) return;
             const t = Math.min(1, (now - start) / duration);
             const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
             const current = target * eased;
             el.textContent = prefix + Math.floor(current).toLocaleString('en-US') + suffix;
             if (t < 1) {
-                requestAnimationFrame(step);
+                rafId = requestAnimationFrame(step);
             } else {
                 // Final value: honor the data-key text in the active language
                 const key = el.getAttribute('data-key');
@@ -444,9 +461,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     el.textContent = prefix + Math.floor(target).toLocaleString('en-US') + suffix;
                 }
+                el._almCancel = null;
             }
         }
-        requestAnimationFrame(step);
+        rafId = requestAnimationFrame(step);
     }
 
     // ------------------------------------------------------------
