@@ -391,21 +391,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // 🔢 Stat count-up
     // ------------------------------------------------------------
     /** Render the stat-number text content for a given language.
-     *  Uses data-target / data-prefix / data-suffix set in HTML. */
+     *  Uses the language-specific contentMap text (the same source the rest
+     *  of the page uses) so the numbers always reflect the active language. */
     function renderStatNumbers(lang) {
         document.querySelectorAll('.stat-number').forEach(function (el) {
-            // Only paint initial values (animation flag is reset by count-up)
-            if (el.dataset.animated === '1') return;
-            const target = parseFloat(el.getAttribute('data-target') || '0');
-            const prefix = el.getAttribute('data-prefix') || '';
-            const suffix = el.getAttribute('data-suffix') || '';
-            const hasDecimal = String(target).indexOf('.') !== -1;
-            const formatted = hasDecimal
-                ? target.toFixed(0)
-                : Math.floor(target).toLocaleString('en-US');
-            el.textContent = prefix + formatted + suffix;
-            // Hide the count animation if the user prefers reduced motion
-            if (reduceMotion) el.dataset.animated = '1';
+            const key = el.getAttribute('data-key');
+            const entry = key && contentMap[key];
+            if (entry && entry[lang]) {
+                el.textContent = entry[lang];
+            } else {
+                // Fallback: build from data-* attrs
+                const target = parseFloat(el.getAttribute('data-target') || '0');
+                const prefix = el.getAttribute('data-prefix') || '';
+                const suffix = el.getAttribute('data-suffix') || '';
+                const hasDecimal = String(target).indexOf('.') !== -1;
+                const formatted = hasDecimal
+                    ? target.toFixed(0)
+                    : Math.floor(target).toLocaleString('en-US');
+                el.textContent = prefix + formatted + suffix;
+            }
         });
     }
 
